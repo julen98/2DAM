@@ -15,35 +15,41 @@ public class RPN {
     }
 
     public static void main(String[] args) {
-        Scanner teclado = new Scanner(System.in);
-    	String expresion;
+        @SuppressWarnings("resource")
+		Scanner teclado = new Scanner(System.in);
+    	String expresion, repetir = "";
     	int resultado;
   		RPN evaluador = new RPN();
   		
-  		evaluador.vaciarStack();
-  		System.out.println("Introduce la expresion: ");
-  		expresion = teclado.nextLine();
-  		
-  		resultado = evaluador.calc(expresion);
-        System.out.println();
-        System.out.println("Resultado: " + resultado);
-
+  		do {
+	  		evaluador.vaciarStack();
+	  		System.out.println("Introduce la expresion: ");
+	  		expresion = teclado.nextLine();
+	  		
+	  		resultado = evaluador.calc(expresion);
+	        System.out.println("\nResultado: " + resultado);
+	        System.out.println("Quieres volver a hacer otra operacion? [S/N]");
+	        repetir = teclado.nextLine();
+	        
+  		} while (repetir.equalsIgnoreCase("S"));
     }
     
     public int calc (String expresion) {
-    	Scanner parser = new Scanner (expresion);
+    	@SuppressWarnings("resource")
+		Scanner parser = new Scanner (expresion);
     	String token;
-    	int operador1, operador2, resultado = 0;
+    	int num1, num2, resultado = 0;
     	
     	while (parser.hasNext()) {
     		token = parser.next();
     		
     		if (esOperador(token)) {
-    			operador2 = (stack.pop()).intValue();
-    			operador1 = (stack.pop()).intValue();
-    			resultado = evaluadorOperador(token.charAt(0), operador1, operador2);
+    			num2 = (stack.pop()).intValue();
+    			num1 = (stack.pop()).intValue();
+    			resultado = evaluadorOperador(token.charAt(0), num1, num2);
+    			stack.push(Integer.valueOf(resultado));
     		} else {
-    			stack.push(new Integer(Integer.parseInt(token)));
+    			stack.push(Integer.valueOf((Integer.parseInt(token))));
     		}
     	}
     	
@@ -51,22 +57,26 @@ public class RPN {
     }
     
     public boolean esOperador (String token) {
-    	return (token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/") || token.equals("%"));
+    	if (token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/") || token.equals("%")) {
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
     
-    public int evaluadorOperador(char operacion, int operador1, int operador2) {
+    public int evaluadorOperador(char operacion, int num1, int num2) {
         int resultado = 0;
 
         if (operacion == '+')
-            	resultado = operador1 + operador2;
+            	resultado = num1 + num2;
         if (operacion == '-')
-            	resultado = operador1 - operador2;
+            	resultado = num1 - num2;
         if (operacion == '*')
-            	resultado = operador1 * operador2;
+            	resultado = num1 * num2;
         if (operacion == '/')
-            	resultado = operador1 / operador2;
+            	resultado = num1 / num2;
         if (operacion == '%')
-            	resultado = operador1 % operador2;
+            	resultado = num1 % num2;
         
         return resultado;
     }
