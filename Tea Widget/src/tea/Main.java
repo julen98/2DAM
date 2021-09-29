@@ -5,12 +5,8 @@ import javax.swing.SwingUtilities;
 public class Main {
 	public static void main(String[] args) {
 		try {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					new Graphics();
-				}
-			});
+			Graphics g = new Graphics();
+			g.start();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
