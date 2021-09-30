@@ -1,5 +1,6 @@
 package tea;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,7 +29,8 @@ public class Graphics extends JFrame {
 	
 	Container contentpane = getContentPane();
 	JPanel panel = new JPanel();
-	JButton btnStart = new JButton("Start!");
+	JButton btnStart = new JButton("Start");
+	JButton btnStop = new JButton("Stop");
 	
 	@SuppressWarnings("unchecked")
 	Graphics () {
@@ -37,18 +39,21 @@ public class Graphics extends JFrame {
 			 * operacion por defecto de la ventana al cerrarla.
 			 */
 			setTitle("Tea Widget");
-			setSize(650, 350);
+			setSize(750, 350);
 			setLocationRelativeTo(null);
 			setIconImage (new ImageIcon("tea.png").getImage());
 			setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			setVisible(true);
 			setContentPane(contentpane);
 			
-			
-			
+			// Labels
+			lblTimeLeft = new TimerLabel();
+			lblTimeLeft.setBounds(400, 100, 300, 100);
+			panel.add(lblTimeLeft);
+
 			// ComboBox
 			comboBox.setVisible(true);
-			comboBox.setBounds(25, 75, 100, 25);
+			comboBox.setBounds(75, 75, 100, 25);
 			comboBox.addItem(GreenTea);
 			comboBox.addItem(BlackTea);
 			comboBox.addItem(WhiteTea);
@@ -58,14 +63,23 @@ public class Graphics extends JFrame {
 			comboBox.addItem(HerbalTea);
 			comboBox.addItem(RoiboosTea);
 			
-			// Defino el boton como visible y lo coloco
+			// Defino los botones como visibles y los coloco
 			btnStart.setVisible(true);
-			btnStart.setBounds(282, 250, 75, 30);
-			
+			btnStart.setBounds(425, 175, 75, 30);
+			btnStart.setOpaque(false);
+			btnStart.setContentAreaFilled(false);
+			btnStart.setBorderPainted(false);
+			btnStop.setVisible(true);
+			btnStop.setBounds(500, 175, 75, 30);
+			btnStop.setOpaque(false);
+			btnStop.setContentAreaFilled(false);
+			btnStop.setBorderPainted(false);			
+
 			// Defino el layout del panel y anado todos los componentes
 			panel.setLayout(null);
 			panel.setVisible(true);
 			panel.add(btnStart);
+			panel.add(btnStop);
 			panel.add(comboBox);
 			panel.add(textField);
 			
@@ -77,50 +91,51 @@ public class Graphics extends JFrame {
 			comboBox.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					textField.setText(comboBox.getSelectedItem().toString());
-					switch (comboBox.getSelectedItem().toString()) {
-					case "Green Tea":
-						lblTimeLeft.remainingTime = 60;
+					String s = (String) comboBox.getSelectedItem();
+					switch (s) {
+					case "Green tea":
+						System.out.println(TimerLabel.remainingTime);
+						TimerLabel.remainingTime = 60000;
 						break;
-					case "Black Tea":
-						lblTimeLeft.remainingTime = 180;
+					case "Black tea":
+						TimerLabel.remainingTime = 180000;
 						break;
-					case "White Tea":
-						lblTimeLeft.remainingTime = 120;
+					case "White tea":
+						TimerLabel.remainingTime = 120000;
 						break;
-					case "Oolong Tea":
-						lblTimeLeft.remainingTime = 120;
+					case "Oolong tea":
+						TimerLabel.remainingTime = 120000;
 						break;
-					case "Puerh Tea":
-						lblTimeLeft.remainingTime = 300;
+					case "Puerh tea":
+						TimerLabel.remainingTime = 300000;
 						break;
-					case "Purple Tea":
-						lblTimeLeft.remainingTime = 180;
+					case "Purple tea":
+						TimerLabel.remainingTime = 180000;
 						break;
-					case "Herbal Tea":
-						lblTimeLeft.remainingTime = 300;
+					case "Herbal tea":
+						TimerLabel.remainingTime = 300000;
 						break;
-					case "Roiboos Tea":
-						lblTimeLeft.remainingTime = 300;
+					case "Roiboos tea":
+						TimerLabel.remainingTime = 300000;
 						break;
 					}
+					repaint();
 				}
 			});
 			
 			btnStart.addActionListener(new ActionListener() {
 			    @Override
 			    public void actionPerformed(ActionEvent e) {
-					try {
-						lblTimeLeft = new TimerLabel();
-						lblTimeLeft.setBounds(450, 50, 100, 50);
-						panel.add(lblTimeLeft);
-						lblTimeLeft.start();
-					} catch (InterruptedException e1) {
-						e1.printStackTrace();
-					}
-			    }
+					lblTimeLeft.start();
+		    		}
 			});
 			
+			btnStop.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+					lblTimeLeft.stop();
+		    		}
+			});
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
