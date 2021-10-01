@@ -10,7 +10,7 @@ import javax.swing.Timer;
 
 public class TimerLabel extends JLabel {
 	Timer timer;
-	static int remainingTime = 2000;
+	int remainingTime = 2000;
 	
 	
 	public TimerLabel() throws InterruptedException {
@@ -49,6 +49,11 @@ public class TimerLabel extends JLabel {
     
     public void stop() {
     	timer.stop();
+    }
+    
+    public void restart() {
+    	timer.stop();
+    	remainingTime = 0;
     }
     
 }

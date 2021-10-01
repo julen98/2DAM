@@ -1,31 +1,30 @@
-package ejerciciosPropuestos8910;
+package ejerciciosPropuestos89;
 
-public class Cuadrado implements IFiguraGeometrica, IDibujable {
-	double lado;
+public class Circulo extends Figuras{
+	double radio;
 
-    public Cuadrado(double lado) {
+    public Circulo(double radio) {
         super();
-        this.lado = lado;
+        this.radio = radio;
     }
 	
 	@Override
 	public void Dibujar() {
 		System.out.println("\n----------------------------");
-        System.out.println(Cuadrado.class.getSimpleName() + ": ");
+        System.out.println(Circulo.class.getSimpleName() + ": ");
         System.out.println("----------------------------");
-        System.out.println("Lado: " + lado);
+        System.out.println("Radio: " + radio);
         System.out.println("Perimetro: " + CalculaPerimetro());
         System.out.println("Area: " + CalculaArea());
 	}
 
 	@Override
 	public double CalculaArea() {
-		return Math.pow(lado, 2);
+        return Math.PI * Math.pow(radio, 2);
 	}
 
 	@Override
 	public double CalculaPerimetro() {
-		return lado + lado + lado + lado;
+        return 2 * Math.PI * radio;
 	}
-
 }

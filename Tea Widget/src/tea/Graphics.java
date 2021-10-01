@@ -1,6 +1,5 @@
 package tea;
 import java.awt.Container;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,11 +8,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class Graphics extends JFrame {
-	
 	String GreenTea = "Green tea";
 	String BlackTea = "Black tea";
 	String WhiteTea = "White tea";
@@ -24,13 +25,15 @@ public class Graphics extends JFrame {
 	String RoiboosTea = "Roiboos tea";
 	JComboBox<String> comboBox = new JComboBox<String>();
 	JTextField textField = new JTextField(20);
-	
+	JSpinner hours = new JSpinner();
+	JSpinner mins = new JSpinner();
+	JSpinner secs = new JSpinner();
 	TimerLabel lblTimeLeft;
-	
 	Container contentpane = getContentPane();
 	JPanel panel = new JPanel();
 	JButton btnStart = new JButton("Start");
 	JButton btnStop = new JButton("Stop");
+	int tiempoSpinner = 0;
 	
 	@SuppressWarnings("unchecked")
 	Graphics () {
@@ -46,11 +49,13 @@ public class Graphics extends JFrame {
 			setVisible(true);
 			setContentPane(contentpane);
 			
-			// Labels
+			// Labels and textFields
 			lblTimeLeft = new TimerLabel();
 			lblTimeLeft.setBounds(400, 100, 300, 100);
-			panel.add(lblTimeLeft);
-
+			hours.setBounds(75, 100, 40, 25);
+			mins.setBounds(115, 100, 40, 25);
+			secs.setBounds(155, 100, 40, 25);
+			
 			// ComboBox
 			comboBox.setVisible(true);
 			comboBox.setBounds(75, 75, 100, 25);
@@ -82,10 +87,40 @@ public class Graphics extends JFrame {
 			panel.add(btnStop);
 			panel.add(comboBox);
 			panel.add(textField);
+			panel.add(lblTimeLeft);
+			panel.add(hours);
+			panel.add(mins);
+			panel.add(secs);
 			
 			// Anado el panel al container
 			contentpane.add(panel);
 			contentpane.setVisible(true);
+			
+			// ChangeListeners
+			hours.addChangeListener(new ChangeListener() {
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					tiempoSpinner = (Integer) hours.getValue() * 3600000;
+					//lblTimeLeft.remainingTime = tiempoSpinner;
+					repaint();
+				}
+			});
+			mins.addChangeListener(new ChangeListener() {
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					tiempoSpinner = (Integer) hours.getValue() * 3600000;
+					//lblTimeLeft.remainingTime = tiempoSpinner;
+					repaint();
+				}
+			});
+			secs.addChangeListener(new ChangeListener() {
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					tiempoSpinner = (Integer) hours.getValue() * 1000;
+					//lblTimeLeft.remainingTime = tiempoSpinner;
+					repaint();
+				}
+			});
 			
 			// ActionListeners
 			comboBox.addActionListener(new ActionListener() {
@@ -94,29 +129,36 @@ public class Graphics extends JFrame {
 					String s = (String) comboBox.getSelectedItem();
 					switch (s) {
 					case "Green tea":
-						System.out.println(TimerLabel.remainingTime);
-						TimerLabel.remainingTime = 60000;
+						lblTimeLeft.stop();
+						lblTimeLeft.remainingTime = 60000;
 						break;
 					case "Black tea":
-						TimerLabel.remainingTime = 180000;
+						lblTimeLeft.stop();
+						lblTimeLeft.remainingTime = 180000;
 						break;
 					case "White tea":
-						TimerLabel.remainingTime = 120000;
+						lblTimeLeft.stop();
+						lblTimeLeft.remainingTime = 120000;
 						break;
 					case "Oolong tea":
-						TimerLabel.remainingTime = 120000;
+						lblTimeLeft.stop();
+						lblTimeLeft.remainingTime = 120000;
 						break;
 					case "Puerh tea":
-						TimerLabel.remainingTime = 300000;
+						lblTimeLeft.stop();
+						lblTimeLeft.remainingTime = 300000;
 						break;
 					case "Purple tea":
-						TimerLabel.remainingTime = 180000;
+						lblTimeLeft.stop();
+						lblTimeLeft.remainingTime = 180000;
 						break;
 					case "Herbal tea":
-						TimerLabel.remainingTime = 300000;
+						lblTimeLeft.stop();
+						lblTimeLeft.remainingTime = 300000;
 						break;
 					case "Roiboos tea":
-						TimerLabel.remainingTime = 300000;
+						lblTimeLeft.stop();
+						lblTimeLeft.remainingTime = 300000;
 						break;
 					}
 					repaint();

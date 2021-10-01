@@ -1,4 +1,4 @@
-package ejerciciosPropuestos8910;
+package ejerciciosPropuestos89;
 
 public interface IDibujable {
 	void Dibujar();

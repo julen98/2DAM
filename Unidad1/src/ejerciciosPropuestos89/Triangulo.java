@@ -1,6 +1,6 @@
-package ejerciciosPropuestos8910;
+package ejerciciosPropuestos89;
 
-public class Triangulo implements IFiguraGeometrica, IDibujable {
+public class Triangulo extends Figuras {
 	double ancho;
     double alto;
 
@@ -32,6 +32,4 @@ public class Triangulo implements IFiguraGeometrica, IDibujable {
 
         return ancho + alto + hipotenusa;
         }
-
-
 }

@@ -1,6 +1,6 @@
-package ejerciciosPropuestos8910;
+package ejerciciosPropuestos89;
 
-public class Rectangulo implements IFiguraGeometrica, IDibujable {
+public class Rectangulo extends Figuras {
 	double ancho;
     double alto;
     
@@ -30,6 +30,4 @@ public class Rectangulo implements IFiguraGeometrica, IDibujable {
 	public double CalculaPerimetro() {
 		return alto + ancho + ancho + alto;
 	}
-    
-    
 }
