@@ -25,14 +25,20 @@ public class Graphics extends JFrame {
 	String RoiboosTea = "Roiboos tea";
 	JComboBox<String> comboBox = new JComboBox<String>();
 	JTextField textField = new JTextField(20);
-	JSpinner hours = new JSpinner();
-	JSpinner mins = new JSpinner();
-	JSpinner secs = new JSpinner();
 	TimerLabel lblTimeLeft;
 	Container contentpane = getContentPane();
 	JPanel panel = new JPanel();
+	ImageIcon arrowUp = new ImageIcon("arrowUp0.png");
+	ImageIcon arrowDown = new ImageIcon("arrowDown0.png");
 	JButton btnStart = new JButton("Start");
 	JButton btnStop = new JButton("Stop");
+	JButton btnIncreaseHours = new JButton(arrowUp);
+	JButton btnDecreaseHours = new JButton(arrowDown);
+	JButton btnIncreaseMins = new JButton(arrowUp);
+	JButton btnDecreaseMins = new JButton(arrowDown);
+	JButton btnIncreaseSecs = new JButton(arrowUp);
+	JButton btnDecreaseSecs = new JButton(arrowDown);
+	
 	int tiempoSpinner = 0;
 	
 	@SuppressWarnings("unchecked")
@@ -52,9 +58,6 @@ public class Graphics extends JFrame {
 			// Labels and textFields
 			lblTimeLeft = new TimerLabel();
 			lblTimeLeft.setBounds(400, 100, 300, 100);
-			hours.setBounds(75, 100, 40, 25);
-			mins.setBounds(115, 100, 40, 25);
-			secs.setBounds(155, 100, 40, 25);
 			
 			// ComboBox
 			comboBox.setVisible(true);
@@ -88,19 +91,16 @@ public class Graphics extends JFrame {
 			panel.add(comboBox);
 			panel.add(textField);
 			panel.add(lblTimeLeft);
-			panel.add(hours);
-			panel.add(mins);
-			panel.add(secs);
 			
 			// Anado el panel al container
 			contentpane.add(panel);
 			contentpane.setVisible(true);
 			
 			// ChangeListeners
-			hours.addChangeListener(new ChangeListener() {
+			btnIncreaseHours.addActionListener(new ActionListener() {
 				@Override
-				public void stateChanged(ChangeEvent e) {
-					tiempoSpinner = (Integer) hours.getValue() * 3600000;
+				public void actionPerformed(ActionEvent e) {
+					tiempoSpinner += 60000 ;
 					//lblTimeLeft.remainingTime = tiempoSpinner;
 					repaint();
 				}
