@@ -22,6 +22,7 @@ public class TimerLabel extends JLabel {
             		remainingTime -= 1000;
             	} else {
             		timer.stop();
+            		remainingTime = 0;
             	}
             }
         });
@@ -51,9 +52,8 @@ public class TimerLabel extends JLabel {
     	timer.stop();
     }
     
-    public void restart() {
-    	timer.stop();
-    	remainingTime = 0;
+    public boolean checker() {
+    	return timer.isRunning();
     }
     
 }
