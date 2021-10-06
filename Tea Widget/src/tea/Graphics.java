@@ -2,11 +2,16 @@ package tea;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -40,6 +45,7 @@ public class Graphics extends JFrame {
 	JButton btnIncreaseSecs = new JButton(arrowUp);
 	JButton btnDecreaseSecs = new JButton(arrowDown);
 	int startStop = 0;
+	
 	
 	Graphics () {
 		try {
@@ -91,139 +97,144 @@ public class Graphics extends JFrame {
 			contentpane.add(panel);
 			contentpane.setVisible(true);
 			
-			// ChangeListeners
-			btnIncreaseHours.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					lblTimeLeft.remainingTime += 3600000;
-					repaint();
-				}
-			});
-			
-			btnDecreaseHours.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (lblTimeLeft.remainingTime > 3599999) {
-						lblTimeLeft.remainingTime -= 3600000;
-						repaint();
-					} else {
-						lblTimeLeft.remainingTime = 0;
-						repaint();
-					}
-				}
-			});
-			
-			btnIncreaseMins.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					lblTimeLeft.remainingTime += 60000;
-					repaint();
-				}
-			});
-			
-			btnDecreaseMins.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (lblTimeLeft.remainingTime > 59999) {
-						lblTimeLeft.remainingTime -= 60000;
-						repaint();
-					} else {
-						lblTimeLeft.remainingTime = 0;
-						repaint();
-					}
-				}
-			});
-			
-			btnIncreaseSecs.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					lblTimeLeft.remainingTime += 1000;
-					repaint();
-				}
-			});
-			
-			btnDecreaseSecs.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (lblTimeLeft.remainingTime > 0) {
-						lblTimeLeft.remainingTime -= 1000;
-						repaint();
-					}
-				}
-			});
-			
-			// ActionListeners
-			comboBox.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					String s = (String) comboBox.getSelectedItem();
-					switch (s) {
-					case "Green tea":
-						lblTimeLeft.stop();
-						lblTimeLeft.remainingTime = 60000;
-						break;
-					case "Black tea":
-						lblTimeLeft.stop();
-						lblTimeLeft.remainingTime = 180000;
-						break;
-					case "White tea":
-						lblTimeLeft.stop();
-						lblTimeLeft.remainingTime = 120000;
-						break;
-					case "Oolong tea":
-						lblTimeLeft.stop();
-						lblTimeLeft.remainingTime = 120000;
-						break;
-					case "Puerh tea":
-						lblTimeLeft.stop();
-						lblTimeLeft.remainingTime = 300000;
-						break;
-					case "Purple tea":
-						lblTimeLeft.stop();
-						lblTimeLeft.remainingTime = 180000;
-						break;
-					case "Herbal tea":
-						lblTimeLeft.stop();
-						lblTimeLeft.remainingTime = 300000;
-						break;
-					case "Roiboos tea":
-						lblTimeLeft.stop();
-						lblTimeLeft.remainingTime = 300000;
-						break;
-					}
-					repaint();
-				}
-			});
-			
-			btnStart.addChangeListener(new ChangeListener() {
-				@Override
-				public void stateChanged(ChangeEvent e) {
-					if (lblTimeLeft.checker()) {
-						btnStart.setIcon(pause);
-						repaint();
-					} else {
-						btnStart.setIcon(start);
-						repaint();
-					}
-				}
-			});
-			
-			btnStart.addActionListener(new ActionListener() {
-			    @Override
-			    public void actionPerformed(ActionEvent e) {
-					if (startStop == 0 && lblTimeLeft.remainingTime > 0) {
-				    	lblTimeLeft.start();
-						startStop = 1;
-					} else {
-						lblTimeLeft.stop();
-						startStop = 0;
-					}
-		    	}
-			});
+			actionAndChangeListeners();
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Error al ejecutar el programa.");
 		} // catch
 	} // constructor
+
+	private void actionAndChangeListeners() {
+		// ChangeListeners
+		btnIncreaseHours.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				lblTimeLeft.remainingTime += 3600000;
+				repaint();
+			}
+		});
+		
+		btnDecreaseHours.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (lblTimeLeft.remainingTime > 3599999) {
+					lblTimeLeft.remainingTime -= 3600000;
+					repaint();
+				} else {
+					lblTimeLeft.remainingTime = 0;
+					repaint();
+				}
+			}
+		});
+		
+		btnIncreaseMins.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				lblTimeLeft.remainingTime += 60000;
+				repaint();
+			}
+		});
+		
+		btnDecreaseMins.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (lblTimeLeft.remainingTime > 59999) {
+					lblTimeLeft.remainingTime -= 60000;
+					repaint();
+				} else {
+					lblTimeLeft.remainingTime = 0;
+					repaint();
+				}
+			}
+		});
+		
+		btnIncreaseSecs.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				lblTimeLeft.remainingTime += 1000;
+				repaint();
+			}
+		});
+		
+		btnDecreaseSecs.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (lblTimeLeft.remainingTime > 0) {
+					lblTimeLeft.remainingTime -= 1000;
+					repaint();
+				}
+			}
+		});
+		
+		// ActionListeners
+		comboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String s = (String) comboBox.getSelectedItem();
+				switch (s) {
+				case "Green tea":
+					lblTimeLeft.stop();
+					lblTimeLeft.remainingTime = 60000;
+					break;
+				case "Black tea":
+					lblTimeLeft.stop();
+					lblTimeLeft.remainingTime = 180000;
+					break;
+				case "White tea":
+					lblTimeLeft.stop();
+					lblTimeLeft.remainingTime = 120000;
+					break;
+				case "Oolong tea":
+					lblTimeLeft.stop();
+					lblTimeLeft.remainingTime = 120000;
+					break;
+				case "Puerh tea":
+					lblTimeLeft.stop();
+					lblTimeLeft.remainingTime = 300000;
+					break;
+				case "Purple tea":
+					lblTimeLeft.stop();
+					lblTimeLeft.remainingTime = 180000;
+					break;
+				case "Herbal tea":
+					lblTimeLeft.stop();
+					lblTimeLeft.remainingTime = 300000;
+					break;
+				case "Roiboos tea":
+					lblTimeLeft.stop();
+					lblTimeLeft.remainingTime = 300000;
+					break;
+				}
+				repaint();
+			}
+		});
+		
+		btnStart.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				teaIsReady();
+				if (lblTimeLeft.checker()) {
+					btnStart.setIcon(pause);
+					repaint();
+				} else {
+					btnStart.setIcon(start);
+					repaint();
+				}
+			}
+		});
+		
+		btnStart.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+				if (startStop == 0 && lblTimeLeft.remainingTime > 0) {
+			    	lblTimeLeft.start();
+					startStop = 1;
+				} else {
+					lblTimeLeft.stop();
+					startStop = 0;
+				}
+			}
+		});
+	}
 	
 	private void buttons() {
 		// Defino los botones como visibles y los coloco
@@ -233,12 +244,12 @@ public class Graphics extends JFrame {
 		btnStart.setContentAreaFilled(false);
 		btnStart.setBorderPainted(false);
 		btnIncreaseHours.setVisible(true);
-		btnIncreaseHours.setBounds(90, 20, 30, 25);
+		btnIncreaseHours.setBounds(92, 20, 30, 25);
 		btnIncreaseHours.setOpaque(false);
 		btnIncreaseHours.setContentAreaFilled(false);
 		btnIncreaseHours.setBorderPainted(false);
 		btnDecreaseHours.setVisible(true);
-		btnDecreaseHours.setBounds(90, 93, 30, 25);
+		btnDecreaseHours.setBounds(92, 93, 30, 25);
 		btnDecreaseHours.setOpaque(false);
 		btnDecreaseHours.setContentAreaFilled(false);
 		btnDecreaseHours.setBorderPainted(false);
@@ -263,4 +274,24 @@ public class Graphics extends JFrame {
 		btnDecreaseSecs.setContentAreaFilled(false);
 		btnDecreaseSecs.setBorderPainted(false);
 	}// buttons
+	
+	public void teaIsReady() {
+    	if (lblTimeLeft.remainingTime == 0) {
+    		playMusic();
+    		JOptionPane.showMessageDialog(this, "Your tea is ready!", "Your tea is ready!", JOptionPane.INFORMATION_MESSAGE);
+    	}
+    }
+	
+	public void playMusic () {
+		try {
+			File file = new File("timeOver.wav");
+			AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioStream);
+			
+			clip.start();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Error al reproducir la música");
+		}
+	}
 }// class

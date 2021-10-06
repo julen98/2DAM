@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class TimerLabel extends JLabel {
+	private static final long serialVersionUID = -5853013269074028077L;
 	Timer timer;
 	int remainingTime = 2000;
 	
@@ -17,7 +18,6 @@ public class TimerLabel extends JLabel {
         timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	repaint();
-            	System.out.println(remainingTime/1000);
             	if(remainingTime > 0) {
             		remainingTime -= 1000;
             	} else {
