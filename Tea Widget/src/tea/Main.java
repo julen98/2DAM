@@ -3,7 +3,7 @@ package tea;
 public class Main {
 	public static void main(String[] args) {
 		try {
-			Graphics g = new Graphics();
+			GraphicsClass g = new GraphicsClass();
 			g.setVisible(true);
 		} catch (Exception ex) {
 			ex.printStackTrace();

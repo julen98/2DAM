@@ -1,5 +1,6 @@
 package tea;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +12,7 @@ import javax.swing.Timer;
 public class TimerLabel extends JLabel {
 	private static final long serialVersionUID = -5853013269074028077L;
 	Timer timer;
-	int remainingTime = 2000;
+	int remainingTime = 60000;
 	
 	
 	public TimerLabel() throws InterruptedException {
@@ -22,13 +23,13 @@ public class TimerLabel extends JLabel {
             		remainingTime -= 1000;
             	} else {
             		timer.stop();
-            		remainingTime = 0;
+            		
             	}
             }
         });
         timer.setInitialDelay(1);
         setFont (new Font ("Roboto", Font.BOLD, 50));
-        
+        setForeground(new Color(5, 5, 5));
     }
 
     public String getRemainingTime() {
