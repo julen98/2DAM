@@ -1,4 +1,4 @@
-package ejerciciosPropuestos456;
+package ejerciciosPropuestos6;
 
 public class Primo implements Runnable {
 

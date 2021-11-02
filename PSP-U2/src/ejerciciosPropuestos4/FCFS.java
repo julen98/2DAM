@@ -1,4 +1,4 @@
-package ejerciciosPropuestos456;
+package ejerciciosPropuestos4;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
