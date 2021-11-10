@@ -3,14 +3,14 @@ package ejerciciosPropuestos9;
 public class Contador {
 	int numAcumulado;
 
-	public int random() {
-		numAcumulado = 5000;
-		double r = Math.floor(Math.random() * numAcumulado);
+	public synchronized void random() {
+		numAcumulado = 1;
+		double r = Math.floor(Math.random() * 5000);
 		int n = (int)r;
-		if (numAcumulado % 2 == 0)
+		if (n % 2 == 0)
 			numAcumulado++;
 		else
 			numAcumulado--;
-		return n;
+		System.out.println("Numero acumulado: " + numAcumulado + " - Numero random: " + n);
 	}
 }

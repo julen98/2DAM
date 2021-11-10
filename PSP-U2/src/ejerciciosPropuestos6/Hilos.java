@@ -3,13 +3,17 @@ package ejerciciosPropuestos6;
 import ejerciciosPropuestos9.Contador;
 
 public class Hilos extends Thread {
-
-	public Hilos(Contador c) {
-		
+	int num;
+	Contador c;
+	
+	public Hilos(Contador c, int num) {
+		this.c = c;
+		this.num = num;
 	}
 	
 	@Override
-	public void run() {
-		
+	public synchronized void run() {
+		c = new Contador();
+		c.random();
 	}
 }

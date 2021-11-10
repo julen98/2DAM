@@ -1,13 +1,13 @@
 package ejerciciosPropuestos9;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+import ejerciciosPropuestos6.Hilos;
 
 public class Main {
 	public static void main(String[] args) {
-		ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
-		for (int i = 0; i < 100; i++) {
-			
+		Contador c = new Contador();
+		for (int i = 1; i < 11; i++) {
+			Hilos h = new Hilos(c, i);
+			h.start();
 		}
 	}
 }
