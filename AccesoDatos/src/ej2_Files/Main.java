@@ -16,15 +16,15 @@ public class Main  {
 		int n = 0;
 		do {
 			File cambiar = new File("/" + ruta);
-			String[] listado = cambiar.list();
 			System.out.println(cambiar.getPath());
+			String[] listado = cambiar.list();
 			System.out.println();
 			for (int i = 0; i < listado.length; i++) {
 		        File comprobar = new File(cambiar + listado[i]);
 		        if(comprobar.isDirectory()) {
-		        	System.out.println((i+1) + ".- " + listado[i] + " (Directorio)");
+		        	System.out.println((i+1) + ".- " + listado[i] + "\t<Directorio>");
 		        } else {
-		        	System.out.println((i+1) + ".- " + listado[i] + " " + cambiar.length());
+		        	System.out.println((i+1) + ".- " + listado[i] + "\t" + cambiar.length());
 		        }
 			}
 			
@@ -35,17 +35,33 @@ public class Main  {
 			for(int i = 0; i < listado.length; i++) {
 				listFile.add(new File("/" + listado[i]));
 			}
-			
-			if (n == 0) {
-				ruta = "";
-			} if (n == -1) {
-				System.exit(1);
-			} else {
-				if(listFile.get(n).isDirectory()) {
-					ruta = listado[n];
+			try {
+			if (n >= 0 && n <= listado.length) {
+				if (n == 0) {
+					if (listFile.get(n).getParent() == null) {
+					} else {
+						ruta = listFile.get(n).getParent();
+						System.out.println(listFile.get(n).getParent());
+					}
 				} else {
-					System.out.println("No se puede navegar hacia un archivo.");
+					
 				}
+				if(listFile.get(n-1).canRead()) {
+					if(listFile.get(n-1).isDirectory()) {
+						ruta = listado[n-1];
+					} else {
+					}
+				} else {
+					System.out.println("No tienes permiso para leer " + listFile.get(n-1));
+				}
+			} else {
+				if (n != -1) 
+					System.out.println("El numero introducido debe estar entre 0 y " + listado.length);
+				else
+					System.exit(1);
+			}
+			} catch (Exception e){
+				e.printStackTrace();
 			}
 		} while (n != -1);
 	}
