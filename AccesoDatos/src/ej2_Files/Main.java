@@ -12,27 +12,41 @@ public class Main  {
 		
 		@SuppressWarnings("resource")
 		Scanner teclado = new Scanner(System.in);
-		File f = new File("/");
-		String[] listado = f.list();
+		String ruta = "";
 		int n = 0;
 		do {
+			File cambiar = new File("/" + ruta);
+			String[] listado = cambiar.list();
+			System.out.println(cambiar.getPath());
+			System.out.println();
 			for (int i = 0; i < listado.length; i++) {
-		        File comprobar = new File(f + listado[i]);
+		        File comprobar = new File(cambiar + listado[i]);
 		        if(comprobar.isDirectory()) {
-		        	System.out.println(i + ".- " + listado[i] + " (Directorio)");
+		        	System.out.println((i+1) + ".- " + listado[i] + " (Directorio)");
 		        } else {
-		        	System.out.println(i + ".- " + listado[i] + " " + f.length());
+		        	System.out.println((i+1) + ".- " + listado[i] + " " + cambiar.length());
 		        }
-				
-				System.out.println("Introduce un numero (-1 para acabar): ");
-				n = teclado.nextInt();
-				
-				if (n != -1) {
-					File file = new File(listado[n]);
+			}
+			
+			System.out.println("Introduce un numero (-1 para acabar): ");
+			n = teclado.nextInt();
+			
+			ArrayList<File> listFile = new ArrayList<File>();
+			for(int i = 0; i < listado.length; i++) {
+				listFile.add(new File("/" + listado[i]));
+			}
+			
+			if (n == 0) {
+				ruta = "";
+			} if (n == -1) {
+				System.exit(1);
+			} else {
+				if(listFile.get(n).isDirectory()) {
+					ruta = listado[n];
 				} else {
-					System.exit(1);
+					System.out.println("No se puede navegar hacia un archivo.");
 				}
-		    }
+			}
 		} while (n != -1);
 	}
 }
