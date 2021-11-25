@@ -7,20 +7,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main  {
+public class Main {
 	public static void main(String[] args) throws IOException {
-		
+		Thread t = new Thread();
+		t.start();
 		@SuppressWarnings("resource")
 		Scanner teclado = new Scanner(System.in);
 		String ruta = "";
 		int n = 0;
 		do {
 			File cambiar = new File("/" + ruta);
-			System.out.println(cambiar.getPath());
 			String[] listado = cambiar.list();
-			System.out.println();
+			System.out.println("Lista de ficheros y directorios del directorio " + cambiar.getPath() + "\n------------------------------------------------");
 			for (int i = 0; i < listado.length; i++) {
-		        File comprobar = new File(cambiar + listado[i]);
+		        File comprobar = new File(cambiar + "/" + listado[i]);
 		        if(comprobar.isDirectory()) {
 		        	System.out.println((i+1) + ".- " + listado[i] + "\t<Directorio>");
 		        } else {
@@ -36,32 +36,33 @@ public class Main  {
 				listFile.add(new File("/" + listado[i]));
 			}
 			try {
-			if (n >= 0 && n <= listado.length) {
-				if (n == 0) {
-					if (listFile.get(n).getParent() == null) {
+				if (n >= 0 && n <= listado.length) {
+					if (n == 0) {
+						if (cambiar.getParent() == null) {
+						} else {
+							ruta = cambiar.getParent();
+							System.out.println(listFile.get(n).getParent());
+						}
 					} else {
-						ruta = listFile.get(n).getParent();
-						System.out.println(listFile.get(n).getParent());
+						if(listFile.get(n-1).canRead() && listFile.get(n-1).canExecute()) {
+							if(listFile.get(n-1).isDirectory()) {
+								ruta = listado[n-1];
+							} else {
+							}
+						} else {
+							System.err.println("No tienes permiso para leer " + listFile.get(n-1));
+							Thread.sleep(3000);
+						}
 					}
 				} else {
-					
-				}
-				if(listFile.get(n-1).canRead()) {
-					if(listFile.get(n-1).isDirectory()) {
-						ruta = listado[n-1];
+					if (n != -1) {
+						System.err.println("El numero introducido debe estar entre 0 y " + listado.length);
+						Thread.sleep(3000);
 					} else {
+						System.exit(1);
 					}
-				} else {
-					System.out.println("No tienes permiso para leer " + listFile.get(n-1));
 				}
-			} else {
-				if (n != -1) 
-					System.out.println("El numero introducido debe estar entre 0 y " + listado.length);
-				else
-					System.exit(1);
-			}
 			} catch (Exception e){
-				e.printStackTrace();
 			}
 		} while (n != -1);
 	}
